@@ -1,0 +1,115 @@
+digraph conceptual {
+	bgcolor=white nodesep=0.45 overlap=false pad=0.25 rankdir=LR ranksep=1.1 splines=spline
+	graph [fontname=Arial fontsize=22 label="Modelo conceptual ampliado - Notacion de Chen" labelloc=t]
+	node [color=black fontname=Arial fontsize=10 style=solid]
+	edge [color=black dir=none fontname=Arial fontsize=9]
+	USUARIOS [label=USUARIOS fontsize=11 shape=box]
+	CATEGORIAS [label=CATEGORIAS fontsize=11 shape=box]
+	EVENTOS [label=EVENTOS fontsize=11 shape=box]
+	LOG_ACCESOS [label=LOG_ACCESOS fontsize=11 shape=box]
+	UBICACIONES [label=UBICACIONES fontsize=11 shape=box]
+	TIPOS_DISPONIBILIDAD [label=TIPOS_DISPONIBILIDAD fontsize=11 shape=box]
+	DISPONIBILIDADES [label=DISPONIBILIDADES fontsize=11 shape=box]
+	TAREAS [label=TAREAS fontsize=11 shape=box]
+	u_id [label=<<U>id_usuario</U>> fontsize=9 peripheries=1 shape=ellipse]
+	u_nombre [label=nombre fontsize=9 peripheries=1 shape=ellipse]
+	u_apellido [label=apellido fontsize=9 peripheries=1 shape=ellipse]
+	u_fecha [label=fecha_registro fontsize=9 peripheries=1 shape=ellipse]
+	u_activo [label=activo fontsize=9 peripheries=1 shape=ellipse]
+	u_tel [label=telefonos fontsize=9 peripheries=2 shape=ellipse]
+	u_email [label=emails fontsize=9 peripheries=2 shape=ellipse]
+	USUARIOS -> u_id
+	USUARIOS -> u_nombre
+	USUARIOS -> u_apellido
+	USUARIOS -> u_fecha
+	USUARIOS -> u_activo
+	USUARIOS -> u_tel
+	USUARIOS -> u_email
+	c_id [label=<<U>id_categoria</U>> fontsize=9 peripheries=1 shape=ellipse]
+	c_nombre [label=nombre fontsize=9 peripheries=1 shape=ellipse]
+	CATEGORIAS -> c_id
+	CATEGORIAS -> c_nombre
+	e_id [label=<<U>id_evento</U>> fontsize=9 peripheries=1 shape=ellipse]
+	e_titulo [label=titulo fontsize=9 peripheries=1 shape=ellipse]
+	e_desc [label=descripcion fontsize=9 peripheries=1 shape=ellipse]
+	e_ini [label=fecha_inicio fontsize=9 peripheries=1 shape=ellipse]
+	e_fin [label=fecha_fin fontsize=9 peripheries=1 shape=ellipse]
+	EVENTOS -> e_id
+	EVENTOS -> e_titulo
+	EVENTOS -> e_desc
+	EVENTOS -> e_ini
+	EVENTOS -> e_fin
+	l_id [label=<<U>id_log</U>> fontsize=9 peripheries=1 shape=ellipse]
+	l_fecha [label=fecha_acceso fontsize=9 peripheries=1 shape=ellipse]
+	LOG_ACCESOS -> l_id
+	LOG_ACCESOS -> l_fecha
+	ub_id [label=<<U>id_ubicacion</U>> fontsize=9 peripheries=1 shape=ellipse]
+	ub_nom [label=nombre fontsize=9 peripheries=1 shape=ellipse]
+	ub_dir [label=direccion fontsize=9 peripheries=1 shape=ellipse]
+	ub_ciu [label=ciudad fontsize=9 peripheries=1 shape=ellipse]
+	ub_cap [label=capacidad fontsize=9 peripheries=1 shape=ellipse]
+	UBICACIONES -> ub_id
+	UBICACIONES -> ub_nom
+	UBICACIONES -> ub_dir
+	UBICACIONES -> ub_ciu
+	UBICACIONES -> ub_cap
+	td_id [label=<<U>id_tipo_disponibilidad</U>> fontsize=9 peripheries=1 shape=ellipse]
+	td_nom [label=nombre fontsize=9 peripheries=1 shape=ellipse]
+	TIPOS_DISPONIBILIDAD -> td_id
+	TIPOS_DISPONIBILIDAD -> td_nom
+	d_id [label=<<U>id_disponibilidad</U>> fontsize=9 peripheries=1 shape=ellipse]
+	d_fecha [label=fecha fontsize=9 peripheries=1 shape=ellipse]
+	d_hi [label=hora_inicio fontsize=9 peripheries=1 shape=ellipse]
+	d_hf [label=hora_fin fontsize=9 peripheries=1 shape=ellipse]
+	DISPONIBILIDADES -> d_id
+	DISPONIBILIDADES -> d_fecha
+	DISPONIBILIDADES -> d_hi
+	DISPONIBILIDADES -> d_hf
+	t_id [label=<<U>id_tarea</U>> fontsize=9 peripheries=1 shape=ellipse]
+	t_tit [label=titulo fontsize=9 peripheries=1 shape=ellipse]
+	t_des [label=descripcion fontsize=9 peripheries=1 shape=ellipse]
+	t_pri [label=prioridad fontsize=9 peripheries=1 shape=ellipse]
+	t_lim [label=fecha_limite fontsize=9 peripheries=1 shape=ellipse]
+	t_est [label=estado fontsize=9 peripheries=1 shape=ellipse]
+	TAREAS -> t_id
+	TAREAS -> t_tit
+	TAREAS -> t_des
+	TAREAS -> t_pri
+	TAREAS -> t_lim
+	TAREAS -> t_est
+	R_PROP [label=PROPIETARIO fontsize=9 margin=0.08 shape=diamond]
+	R_PERT [label=PERTENECE fontsize=9 margin=0.08 shape=diamond]
+	R_PART [label=PARTICIPACION fontsize=9 margin=0.08 shape=diamond]
+	R_JER [label=JERARQUIA fontsize=9 margin=0.08 shape=diamond]
+	R_REG [label=REGISTRA fontsize=9 margin=0.08 shape=diamond]
+	R_UBI [label="SE REALIZA EN" fontsize=9 margin=0.08 shape=diamond]
+	R_DISP [label=TIENE fontsize=9 margin=0.08 shape=diamond]
+	R_TIPO [label=CLASIFICA fontsize=9 margin=0.08 shape=diamond]
+	R_TAREA [label=CONTIENE fontsize=9 margin=0.08 shape=diamond]
+	R_RESP [label=RESPONSABLE fontsize=9 margin=0.08 shape=diamond]
+	USUARIOS -> R_PROP [label=1]
+	R_PROP -> EVENTOS [label=N]
+	CATEGORIAS -> R_PERT [label=1]
+	R_PERT -> EVENTOS [label=N]
+	UBICACIONES -> R_UBI [label=1]
+	R_UBI -> EVENTOS [label=N]
+	USUARIOS -> R_DISP [label=1]
+	R_DISP -> DISPONIBILIDADES [label=N]
+	TIPOS_DISPONIBILIDAD -> R_TIPO [label=1]
+	R_TIPO -> DISPONIBILIDADES [label=N]
+	EVENTOS -> R_TAREA [label=1]
+	R_TAREA -> TAREAS [label=N]
+	USUARIOS -> R_RESP [label=1]
+	R_RESP -> TAREAS [label=N]
+	USUARIOS -> R_REG [label=1]
+	R_REG -> LOG_ACCESOS [label=N]
+	USUARIOS -> R_PART [label=N]
+	R_PART -> EVENTOS [label=M]
+	p_rol [label=rol fontsize=9 peripheries=1 shape=ellipse]
+	p_estado [label=estado_confirmacion fontsize=9 peripheries=1 shape=ellipse]
+	R_PART -> p_rol
+	R_PART -> p_estado
+	CATEGORIAS -> R_JER [label="padre 1" constraint=false]
+	CATEGORIAS -> R_JER [label="hija N" constraint=false]
+	rank=same
+}

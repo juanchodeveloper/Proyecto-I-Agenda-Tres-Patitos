@@ -1,0 +1,41 @@
+digraph fisico {
+	bgcolor=white nodesep=0.55 pad=0.2 rankdir=LR ranksep=0.9 splines=polyline
+	graph [fontname=Arial fontsize=22 label="Modelo fisico PostgreSQL - esquema prototipo" labelloc=t]
+	node [fontname=Arial fontsize=8.7 shape=plain]
+	edge [arrowsize=0.7 color=black fontname=Arial fontsize=8]
+	usuarios [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#DDDDDD"><B>usuarios</B></TD></TR><TR><TD ALIGN="LEFT">id_usuario SERIAL PK</TD></TR><TR><TD ALIGN="LEFT">nombre VARCHAR(50) NOT NULL</TD></TR><TR><TD ALIGN="LEFT">apellido VARCHAR(50) NOT NULL</TD></TR><TR><TD ALIGN="LEFT">fecha_registro DATE NOT NULL DEFAULT CURRENT_DATE</TD></TR><TR><TD ALIGN="LEFT">activo BOOLEAN NOT NULL DEFAULT TRUE</TD></TR></TABLE>>]
+	telefonos [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#DDDDDD"><B>usuario_telefonos</B></TD></TR><TR><TD ALIGN="LEFT">id_usuario INTEGER NOT NULL PK/FK</TD></TR><TR><TD ALIGN="LEFT">telefono VARCHAR(20) NOT NULL PK</TD></TR></TABLE>>]
+	emails [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#DDDDDD"><B>usuario_emails</B></TD></TR><TR><TD ALIGN="LEFT">id_usuario INTEGER NOT NULL PK/FK</TD></TR><TR><TD ALIGN="LEFT">email VARCHAR(100) NOT NULL PK</TD></TR></TABLE>>]
+	categorias [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#DDDDDD"><B>categorias</B></TD></TR><TR><TD ALIGN="LEFT">id_categoria SERIAL PK</TD></TR><TR><TD ALIGN="LEFT">nombre VARCHAR(50) NOT NULL</TD></TR><TR><TD ALIGN="LEFT">id_categoria_padre INTEGER FK NULL</TD></TR></TABLE>>]
+	ubicaciones [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#DDDDDD"><B>ubicaciones</B></TD></TR><TR><TD ALIGN="LEFT">id_ubicacion SERIAL PK</TD></TR><TR><TD ALIGN="LEFT">nombre VARCHAR(100) NOT NULL</TD></TR><TR><TD ALIGN="LEFT">direccion VARCHAR(200) NOT NULL</TD></TR><TR><TD ALIGN="LEFT">ciudad VARCHAR(100) NOT NULL</TD></TR><TR><TD ALIGN="LEFT">capacidad INTEGER NOT NULL CHECK (capacidad &gt; 0)</TD></TR></TABLE>>]
+	eventos [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#DDDDDD"><B>eventos</B></TD></TR><TR><TD ALIGN="LEFT">id_evento SERIAL PK</TD></TR><TR><TD ALIGN="LEFT">id_usuario_propietario INTEGER FK NOT NULL</TD></TR><TR><TD ALIGN="LEFT">id_categoria INTEGER FK NOT NULL</TD></TR><TR><TD ALIGN="LEFT">id_ubicacion INTEGER FK NOT NULL</TD></TR><TR><TD ALIGN="LEFT">titulo VARCHAR(100) NOT NULL</TD></TR><TR><TD ALIGN="LEFT">descripcion TEXT NULL</TD></TR><TR><TD ALIGN="LEFT">fecha_inicio TIMESTAMP NOT NULL</TD></TR><TR><TD ALIGN="LEFT">fecha_fin TIMESTAMP NOT NULL</TD></TR><TR><TD ALIGN="LEFT">CHECK (fecha_fin &gt; fecha_inicio)</TD></TR></TABLE>>]
+	part [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#DDDDDD"><B>participaciones</B></TD></TR><TR><TD ALIGN="LEFT">id_evento INTEGER PK/FK ON DELETE CASCADE</TD></TR><TR><TD ALIGN="LEFT">id_invitado INTEGER PK/FK</TD></TR><TR><TD ALIGN="LEFT">rol VARCHAR(50) NULL</TD></TR><TR><TD ALIGN="LEFT">estado_confirmacion VARCHAR(20) NOT NULL DEFAULT pendiente</TD></TR><TR><TD ALIGN="LEFT">CHECK estado: aceptado / pendiente / rechazado</TD></TR></TABLE>>]
+	log [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#DDDDDD"><B>log_accesos</B></TD></TR><TR><TD ALIGN="LEFT">id_log SERIAL PK</TD></TR><TR><TD ALIGN="LEFT">id_usuario INTEGER FK NOT NULL</TD></TR><TR><TD ALIGN="LEFT">fecha_acceso TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP</TD></TR></TABLE>>]
+	tipos [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#DDDDDD"><B>tipos_disponibilidad</B></TD></TR><TR><TD ALIGN="LEFT">id_tipo_disponibilidad SERIAL PK</TD></TR><TR><TD ALIGN="LEFT">nombre VARCHAR(30) NOT NULL UNIQUE</TD></TR></TABLE>>]
+	disp [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#DDDDDD"><B>disponibilidades</B></TD></TR><TR><TD ALIGN="LEFT">id_disponibilidad SERIAL PK</TD></TR><TR><TD ALIGN="LEFT">id_usuario INTEGER FK NOT NULL</TD></TR><TR><TD ALIGN="LEFT">fecha DATE NOT NULL</TD></TR><TR><TD ALIGN="LEFT">hora_inicio TIME NOT NULL</TD></TR><TR><TD ALIGN="LEFT">hora_fin TIME NOT NULL</TD></TR><TR><TD ALIGN="LEFT">id_tipo_disponibilidad INTEGER FK NOT NULL</TD></TR><TR><TD ALIGN="LEFT">CHECK (hora_fin &gt; hora_inicio)</TD></TR></TABLE>>]
+	tareas [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4">
+    <TR><TD BGCOLOR="#DDDDDD"><B>tareas</B></TD></TR><TR><TD ALIGN="LEFT">id_tarea SERIAL PK</TD></TR><TR><TD ALIGN="LEFT">id_evento INTEGER FK NOT NULL</TD></TR><TR><TD ALIGN="LEFT">id_usuario_responsable INTEGER FK NOT NULL</TD></TR><TR><TD ALIGN="LEFT">titulo VARCHAR(120) NOT NULL</TD></TR><TR><TD ALIGN="LEFT">descripcion TEXT NULL</TD></TR><TR><TD ALIGN="LEFT">prioridad VARCHAR(30) NOT NULL</TD></TR><TR><TD ALIGN="LEFT">fecha_limite DATE NOT NULL</TD></TR><TR><TD ALIGN="LEFT">estado VARCHAR(20) NOT NULL DEFAULT Pendiente</TD></TR><TR><TD ALIGN="LEFT">CHECK estado: Pendiente / En progreso / Completada / Cancelada</TD></TR></TABLE>>]
+	telefonos -> usuarios [label=FK]
+	emails -> usuarios [label=FK]
+	categorias -> categorias [label="FK recursiva"]
+	eventos -> usuarios [label="FK propietario"]
+	eventos -> categorias [label="FK categoria"]
+	eventos -> ubicaciones [label="FK ubicacion"]
+	part -> eventos [label=FK]
+	part -> usuarios [label=FK]
+	log -> usuarios [label=FK]
+	disp -> usuarios [label=FK]
+	disp -> tipos [label=FK]
+	tareas -> eventos [label=FK]
+	tareas -> usuarios [label=FK]
+}
