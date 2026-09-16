@@ -1,7 +1,5 @@
--- Proyecto 1 - Agenda Digital "Tres Patitos"
--- Script consolidado para PostgreSQL 18+
--- IMPORTANTE: crear previamente una base de datos llamada agenda y ejecutar este
--- archivo conectado a esa base. El script reconstruye el esquema prototipo.
+-- Proyecto 1: Agenda Digital "Tres Patitos"
+-- Script PostgreSQL
 
 DROP SCHEMA IF EXISTS prototipo CASCADE;
 CREATE SCHEMA prototipo;
@@ -371,7 +369,7 @@ END;
 $$ LANGUAGE plpgsql STABLE;
 
 -- ============================================================
--- 8. VERIFICACIONES DE ESTRUCTURA (solo lectura)
+-- 8. VERIFICACIONES DE ESTRUCTURA (esta parte es solo de lectura)
 -- ============================================================
 
 -- SELECT table_name FROM information_schema.tables
