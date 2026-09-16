@@ -10,7 +10,7 @@ except ImportError:
     DateEntry = None
 
 
-# Configuracion sencilla para la defensa. Ajustar solo este bloque si cambia el entorno.
+# Configuracion sencilla(defensa)
 DB_CONFIG = {
     "dbname": "agenda",
     "user": "postgres",
