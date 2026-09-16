@@ -1,4 +1,4 @@
-# Proyecto I - Agenda Digital "Tres Patitos"
+# Proyecto I: Agenda Digital "Tres Patitos"
 
 **Autor:** Juan Pablo Picado Salas  
 **Curso:** Bases de Datos  
